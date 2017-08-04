@@ -1,4 +1,6 @@
+from student import Student
 import student
+import json
 
 
 class ClassRoom:
@@ -16,10 +18,16 @@ class ClassRoom:
         if option == 'c':
             for student in self.student_list:
                 student.get_average_grade(student.grades)
+        if option == 'd':
+            with open('gradebook.json', 'w') as f:
+                json.dump(self.json(), f)
+                print("Gradebook written to file")
+
         print("Choose an action: ")
         print("A: See students")
         print("B: Add a student")
         print("C: Get averages")
+        print("D: Write classroom to file")
         print("Q: Exit")
 
     def get_student_list(self):
@@ -40,3 +48,21 @@ class ClassRoom:
         new_student = student.Student(name, grades)
         self.student_list.append(new_student)
         return new_student
+
+    def json(self):
+        return {
+            'name': self.name,
+            'student_list': [
+                student.json() for student in self.student_list
+            ]
+        }
+
+    @classmethod
+    def from_json(cls, json_data):
+        name = json_data["name"]
+        student_list = []
+        for student_data in json_data["student_list"]:
+            student_list.append(Student.from_json(student_data))
+        classroom = ClassRoom(name)
+        classroom.student_list = student_list
+        return classroom
