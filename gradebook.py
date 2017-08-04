@@ -12,13 +12,17 @@ print("Q: Quit")
 choice = input().lower()
 
 if choice == 'a':
-    with open('gradebook.json', 'r') as f:
+    print("What is the class name?")
+    class_name = input().capitalize()
+    with open('{}.json'.format(class_name), 'r') as f:
         json_data = json.load(f)
         classroom = ClassRoom.from_json(json_data)
         print("Loaded {} class".format(classroom.name))
 
 if choice == 'b':
-    classroom = ClassRoom("Math")
+    print("What is the class name?")
+    class_name = input().capitalize()
+    classroom = ClassRoom(class_name)
 
 elif choice == 'q':
     print("Goodbye!")

@@ -19,7 +19,7 @@ class ClassRoom:
             for student in self.student_list:
                 student.get_average_grade(student.grades)
         if option == 'd':
-            with open('gradebook.json', 'w') as f:
+            with open('{}.json'.format(self.name), 'w') as f:
                 json.dump(self.json(), f)
                 print("Gradebook written to file")
 
